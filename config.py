@@ -8,4 +8,4 @@ player_cords = {
 	15 : [11],
 
 }
-down = 43
+player_column = 10

@@ -54,6 +54,21 @@ class Board:
 				self.grid[i][j] = Player()
 				player_cords[i].append(j)
 		return
+
+	def move_player_right(self, player_cords, player_column):
+		new_player_cords = {}
+		for i in player_cords:
+			new_player_cords[i] = []
+			for j in player_cords[i]:
+				new_player_cords[i].append(j + 1)
+				self.grid[i][j] = Playarea()
+		player_cords.clear()
+		for i in new_player_cords:
+			player_cords[i] = []
+			for j in new_player_cords[i]:
+				self.grid[i][j] = Player()
+				player_cords[i].append(j)
+		return player_column + 1	
 	def display(self):
 		print("\033[0;0H")
 		print()
