@@ -55,20 +55,33 @@ class Board:
 				player_cords[i].append(j)
 		return
 
-	def move_player_right(self, player_cords, player_column):
+	def move_player(self, player_cords, player_column, movement, pos):
 		new_player_cords = {}
 		for i in player_cords:
-			new_player_cords[i] = []
+			new_player_cords[i + movement[0]] = []
 			for j in player_cords[i]:
-				new_player_cords[i].append(j + 1)
+				new_player_cords[i + movement[0]].append(j + movement[1])
+		
+		player_column = player_column + movement[1] 
+		if player_column <= pos:
+			return player_column - movement[1]
+		for i in new_player_cords:
+			for j in new_player_cords[i]:
+				if self.grid[i][j].blocking == 1:
+					return player_column							## Add condition for fire beams and enemies here
+		
+		for i in player_cords:
+			for j in player_cords[i]:
 				self.grid[i][j] = Playarea()
+
 		player_cords.clear()
 		for i in new_player_cords:
 			player_cords[i] = []
 			for j in new_player_cords[i]:
 				self.grid[i][j] = Player()
 				player_cords[i].append(j)
-		return player_column + 1	
+		
+		return player_column
 	def display(self):
 		print("\033[0;0H")
 		print()

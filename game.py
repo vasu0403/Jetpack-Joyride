@@ -4,11 +4,12 @@ from scenery import *
 import time
 import signal
 import os
+import sys
 from alarmexception import AlarmException
 from getch import _getChUnix as getChar
 game_board = Board(rows, columns, num_column)
 game_board.create_grid()
-
+sys.stderr.write("\x1b[2J\x1b[H")
 def alarmhandler(signum, frame):
 		''' input method '''
 		raise AlarmException
@@ -33,8 +34,19 @@ game_board.insert_playarea()
 game_board.insert_player()
 while True:
 	char = user_input()
-	if char == 'd':
-		player_column = game_board.move_player_right(player_cords, player_column)
+	if char == 'q':
+		break
+	elif char == 'd':
+		player_column = game_board.move_player(player_cords, player_column, [0, 1], game_board.pos)
+		game_board.display()
+	elif char == 'a':
+		player_column = game_board.move_player(player_cords, player_column, [0, -1], game_board.pos)
+		game_board.display()
+	elif char == 'w':
+		player_column = game_board.move_player(player_cords, player_column, [-1, 0], game_board.pos)
+		game_board.display()
+	elif char == 's':
+		player_column = game_board.move_player(player_cords, player_column, [1, 0], game_board.pos)
 		game_board.display()
 	cur_time = time.time()
 	if cur_time - prev_time >= 0.15:
@@ -42,5 +54,5 @@ while True:
 		game_board.gravity(player_cords)
 		game_board.pos = game_board.pos + 1
 		if game_board.pos == player_column:
-			player_column = game_board.move_player_right(player_cords, player_column)
+			player_column = game_board.move_player(player_cords, player_column, [0, 1], game_board.pos)
 		game_board.display()

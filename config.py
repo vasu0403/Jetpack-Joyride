@@ -1,6 +1,6 @@
-rows = 40
+rows = 30
 columns = 500
-num_column = 183
+num_column = 150
 player_cords = {
 	12 : [10, 11, 12],
 	13 : [10, 11, 12],
