@@ -29,59 +29,6 @@ class Board:
 			for j in range(self.columns):
 				self.grid[i][j] = Playarea()
 
-	def insert_player(self):
-		for i in range(12, 14):
-			for j in range(10, 13):
-				self.grid[i][j] = Player()
-		for i in range(14, 16):
-			self.grid[i][11] = Player()
-
-	def gravity(self, player_cords):
-		for i in player_cords:
-			for j in player_cords[i]:
-				if self.grid[i+1][j].blocking == 1:
-					return
-		new_player_cords = {}
-		for i in player_cords:
-			new_player_cords[i+1] = []
-			for j in player_cords[i]:
-				new_player_cords[i+1].append(j)
-				self.grid[i][j] = Playarea()
-		player_cords.clear();
-		for i in new_player_cords:
-			player_cords[i] = []
-			for j in new_player_cords[i]:
-				self.grid[i][j] = Player()
-				player_cords[i].append(j)
-		return
-
-	def move_player(self, player_cords, player_column, movement, pos):
-		new_player_cords = {}
-		for i in player_cords:
-			new_player_cords[i + movement[0]] = []
-			for j in player_cords[i]:
-				new_player_cords[i + movement[0]].append(j + movement[1])
-		
-		player_column = player_column + movement[1] 
-		if player_column <= pos:
-			return player_column - movement[1]
-		for i in new_player_cords:
-			for j in new_player_cords[i]:
-				if self.grid[i][j].blocking == 1:
-					return player_column							## Add condition for fire beams and enemies here
-		
-		for i in player_cords:
-			for j in player_cords[i]:
-				self.grid[i][j] = Playarea()
-
-		player_cords.clear()
-		for i in new_player_cords:
-			player_cords[i] = []
-			for j in new_player_cords[i]:
-				self.grid[i][j] = Player()
-				player_cords[i].append(j)
-		
-		return player_column
 	def display(self):
 		print("\033[0;0H")
 		print()
