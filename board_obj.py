@@ -1,8 +1,10 @@
+from colorama import Fore, Back, Style
+
 class Board_obj:
 	def __init__(self):
-		self.friendly = 1
+		self.fire = 0
 		self.blocking = 0
 		self.points = 0
 		self.magnet = 0
 		self.player = 0
-		self.disp = " "
+		self.disp = Back.BLUE + " " + Style.RESET_ALL

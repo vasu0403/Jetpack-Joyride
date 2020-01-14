@@ -1,7 +1,7 @@
 import time
 import os
 n = input()
-# print("\033[0;0H")
 time.sleep(3)
-print("\x1b[2K\r")
+print("\033[1;1H")
+time.sleep(3)
 time.sleep(3)
