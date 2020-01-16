@@ -41,7 +41,7 @@ mandalorian = Mando()
 mandalorian.insert_into_grid(game_board.grid)
 fire_beams = []
 beam_num = 0
-for i in range(40, columns - 151, 45):
+for i in range(40, columns - 151, 20):
 	random.shuffle(Rstart_pos1)
 	random.shuffle(Rstart_pos2)
 	random.shuffle(Rlength1)

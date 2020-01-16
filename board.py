@@ -31,8 +31,11 @@ class Board:
 
 	def display(self, life):
 		print("\033[0;0H")
-		print("Lives left: " + str(life))
+		s = "\nLives left: " + str(life) + "\n"
+		# print("Lives left: " + str(life))
 		for i in range(self.rows):
 			for j in range(self.pos, self.pos + self.num_column):
-				print(self.grid[i][j].disp, end = "")
-			print()
+				# print(self.grid[i][j].disp, end = "")
+				s += self.grid[i][j].disp
+			s += '\n'
+		print(s)
