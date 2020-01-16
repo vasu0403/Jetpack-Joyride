@@ -29,9 +29,9 @@ class Board:
 			for j in range(self.columns):
 				self.grid[i][j] = Playarea()
 
-	def display(self, life):
+	def display(self, life, score):
 		print("\033[0;0H")
-		s = "\nLives left: " + str(life) + "\n"
+		s = "\nLives left: " + str(life) + "\t Score: " + str(score) + "\n"
 		# print("Lives left: " + str(life))
 		for i in range(self.rows):
 			for j in range(self.pos, self.pos + self.num_column):

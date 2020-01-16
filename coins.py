@@ -1,8 +1,8 @@
 from board_obj import Board_obj
 from colorama import Fore, Back, Style
 
-class Boundary(Board_obj):
+class Coin(Board_obj):
 	def __init__(self):
 		Board_obj.__init__(self)
-		self.disp = Back.CYAN + " " + Style.RESET_ALL
-		self.blocking = 1
+		self.disp = Fore.BLUE + "$" + Style.RESET_ALL
+		self.points = 1

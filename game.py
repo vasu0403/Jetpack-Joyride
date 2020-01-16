@@ -10,6 +10,7 @@ from getch import _getChUnix as getChar
 from colorama import Fore, Back, Style
 from mando import Mando
 from beam import Beam
+from coins import Coin
 import random
 game_board = Board(rows, columns, num_column)
 
@@ -23,7 +24,7 @@ def user_input(timeout=0.15):
 	''' input method '''
 	signal.signal(signal.SIGALRM, alarmhandler)
 	signal.setitimer(signal.ITIMER_REAL, timeout)
-	
+
 	try:
 		text = getChar()()
 		signal.alarm(0)
@@ -41,7 +42,7 @@ mandalorian = Mando()
 mandalorian.insert_into_grid(game_board.grid)
 fire_beams = []
 beam_num = 0
-for i in range(40, columns - 151, 20):
+for i in range(40, columns - 151, 70):             # adding fire beams on the
 	random.shuffle(Rstart_pos1)
 	random.shuffle(Rstart_pos2)
 	random.shuffle(Rlength1)
@@ -50,8 +51,21 @@ for i in range(40, columns - 151, 20):
 	start_pos_j = i + Rstart_pos2[0]
 	length = Rlength1[0]
 	orientation = Rorientation[0]
+	if orientation[0] == 0:
+		length += 6
 	fire_beams.append(Beam(start_pos_i, start_pos_j, length, orientation, game_board.grid, beam_num))
 	beam_num = beam_num + 1
+
+for i in range(65, columns - 151, 70):
+	random.shuffle(Random_object)
+	random.shuffle(Random_object_row)
+	object_type = Random_object[0]
+	object_starting_row = Random_object_row[0]
+	if object_type == 1:							# object_type 1 is for coins
+		for j in range(-2, 3):
+			for k in range(5):
+				if is_coin[j + 2][k] == 1:
+					game_board.grid[object_starting_row + j][i + k] = Coin()
 
 while True:
 	char = user_input()
@@ -59,16 +73,16 @@ while True:
 		break
 	elif char == 'd':
 		player_column = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams)
-		game_board.display(mandalorian.life)
+		game_board.display(mandalorian.life, mandalorian.score)
 	elif char == 'a':
 		player_column = mandalorian.move_mando(player_column, [0, -1], game_board.pos, game_board.grid, fire_beams)
-		game_board.display(mandalorian.life)
+		game_board.display(mandalorian.life, mandalorian.score)
 	elif char == 'w':
 		player_column = mandalorian.move_mando(player_column, [-1, 0], game_board.pos, game_board.grid, fire_beams)
-		game_board.display(mandalorian.life)
+		game_board.display(mandalorian.life, mandalorian.score)
 	elif char == 's':
 		player_column = mandalorian.move_mando(player_column, [1, 0], game_board.pos, game_board.grid, fire_beams)
-		game_board.display(mandalorian.life)
+		game_board.display(mandalorian.life, mandalorian.score)
 	cur_time = time.time()
 	if cur_time - prev_time >= 0.15:
 		prev_time = cur_time
@@ -76,4 +90,4 @@ while True:
 		game_board.pos = game_board.pos + 1
 		if game_board.pos == player_column:
 			player_column = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams)
-		game_board.display(mandalorian.life)
+		game_board.display(mandalorian.life, mandalorian.score)

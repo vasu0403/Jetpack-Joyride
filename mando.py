@@ -10,6 +10,7 @@ class Mando:
 		15 : [11],
 	}
 	life = 3
+	score = 0
 	def insert_into_grid(self, grid):
 		for i in self.player_cords:
 			for j in self.player_cords[i]:
@@ -21,8 +22,8 @@ class Mando:
 			new_player_cords[i + movement[0]] = []
 			for j in self.player_cords[i]:
 				new_player_cords[i + movement[0]].append(j + movement[1])
-		
-		player_column = player_column + movement[1] 
+
+		player_column = player_column + movement[1]
 		if player_column <= pos:
 			return player_column - movement[1]
 
@@ -32,14 +33,14 @@ class Mando:
 					if self.life == 1:
 						sys.exit()										# display some message maybe
 					else:
-						self.life = self.life - 1						
+						self.life = self.life - 1
 						num = grid[i][j].beam_num
 						fire_beams[num].self_destruct(grid)
 		for i in new_player_cords:
 			for j in new_player_cords[i]:
 				if grid[i][j].blocking == 1:
-					return player_column							
-		
+					return player_column
+
 		for i in self.player_cords:
 			for j in self.player_cords[i]:
 				grid[i][j] = Playarea()
@@ -48,9 +49,11 @@ class Mando:
 		for i in new_player_cords:
 			self.player_cords[i] = []
 			for j in new_player_cords[i]:
+				if grid[i][j].points != 0:
+					self.score += 1
 				grid[i][j] = Player()
 				self.player_cords[i].append(j)
 		return player_column
-		
+
 	def gravity(self, player_column, pos, grid, fire_beams):
 		return self.move_mando(player_column, [1, 0], pos, grid, fire_beams)
