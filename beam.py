@@ -2,6 +2,7 @@ from board_obj import Board_obj
 from fire import Fire
 from colorama import Fore, Back, Style
 from playarea import Playarea
+
 class Beam:
 	__alive = 1
 	def __init__(self, i, j, length, orientation, grid, beam_num):

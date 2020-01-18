@@ -9,3 +9,4 @@ class Board_obj:
 		self.magnet = 0
 		self.player = 0
 		self.disp = Back.BLUE + " " + Style.RESET_ALL
+		self.boost = 0

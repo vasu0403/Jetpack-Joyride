@@ -11,6 +11,7 @@ from colorama import Fore, Back, Style
 from mando import Mando
 from beam import Beam
 from coins import Coin
+from speedBoost import SpeedBoost
 import random
 game_board = Board(rows, columns, num_column)
 
@@ -20,7 +21,7 @@ def alarmhandler(signum, frame):
 		''' input method '''
 		raise AlarmException
 
-def user_input(timeout=0.15):
+def user_input(timeout=0.03):
 	''' input method '''
 	signal.signal(signal.SIGALRM, alarmhandler)
 	signal.setitimer(signal.ITIMER_REAL, timeout)
@@ -42,7 +43,12 @@ mandalorian = Mando()
 mandalorian.insert_into_grid(game_board.grid)
 fire_beams = []
 beam_num = 0
-for i in range(40, columns - 151, 70):             # adding fire beams on the
+speedBoost_num = 0
+speedBoosts = []
+time_diff = 0.15
+change_time = 0
+time_of_change = time.time()
+for i in range(40, columns - 151, 70):             # adding fire beams on the board
 	random.shuffle(Rstart_pos1)
 	random.shuffle(Rstart_pos2)
 	random.shuffle(Rlength1)
@@ -56,38 +62,52 @@ for i in range(40, columns - 151, 70):             # adding fire beams on the
 	fire_beams.append(Beam(start_pos_i, start_pos_j, length, orientation, game_board.grid, beam_num))
 	beam_num = beam_num + 1
 
-for i in range(65, columns - 151, 70):
+for i in range(65, columns - 151, 70):					# adding coins, speed boost and magnets
 	random.shuffle(Random_object)
 	random.shuffle(Random_object_row)
 	object_type = Random_object[0]
-	object_starting_row = Random_object_row[0]
-	if object_type == 1:							# object_type 1 is for coins
+	object_middle_row = Random_object_row[0]			# containes the middle row of object to placed on board
+
+	if object_type == 1:								# object_type 1 is for coins
 		for j in range(-2, 3):
 			for k in range(5):
 				if is_coin[j + 2][k] == 1:
-					game_board.grid[object_starting_row + j][i + k] = Coin()
+					game_board.grid[object_middle_row + j][i + k] = Coin()
 
+	elif object_type == 2:								# object_type 2 is for spped boost
+		speedBoosts.append(SpeedBoost(object_middle_row, i, game_board.grid, speedBoost_num))
+		speedBoost_num += 1
 while True:
 	char = user_input()
+	cur_time = time.time()
 	if char == 'q':
 		break
 	elif char == 'd':
-		player_column = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams)
+		player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.display(mandalorian.life, mandalorian.score)
 	elif char == 'a':
-		player_column = mandalorian.move_mando(player_column, [0, -1], game_board.pos, game_board.grid, fire_beams)
+		player_column, change_time = mandalorian.move_mando(player_column, [0, -1], game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.display(mandalorian.life, mandalorian.score)
 	elif char == 'w':
-		player_column = mandalorian.move_mando(player_column, [-1, 0], game_board.pos, game_board.grid, fire_beams)
+		player_column, change_time = mandalorian.move_mando(player_column, [-1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.display(mandalorian.life, mandalorian.score)
 	elif char == 's':
-		player_column = mandalorian.move_mando(player_column, [1, 0], game_board.pos, game_board.grid, fire_beams)
+		player_column, change_time = mandalorian.move_mando(player_column, [1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.display(mandalorian.life, mandalorian.score)
-	cur_time = time.time()
-	if cur_time - prev_time >= 0.15:
+	if change_time == 1:
+		change_time = 0
+		time_diff = 0.04
+		time_of_change = time.time()
+	if cur_time - time_of_change >= 10:
+		time_diff = 0.15
+	if cur_time - prev_time >= time_diff:
 		prev_time = cur_time
-		player_column = mandalorian.gravity(player_column, game_board.pos, game_board.grid, fire_beams)
+		player_column, change_time = mandalorian.gravity(player_column, game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.pos = game_board.pos + 1
 		if game_board.pos == player_column:
-			player_column = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams)
+			player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.display(mandalorian.life, mandalorian.score)
+		if change_time == 1:
+			change_time = 0
+			time_diff = 0.04
+			time_of_change = time.time()
