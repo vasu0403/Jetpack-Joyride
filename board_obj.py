@@ -10,3 +10,4 @@ class Board_obj:
 		self.player = 0
 		self.disp = Back.BLUE + " " + Style.RESET_ALL
 		self.boost = 0
+		self.shot = 0

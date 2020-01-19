@@ -7,19 +7,17 @@ from colorama import Fore, Back, Style
 class Mando:
 	player_cords = {
 		12: [13, 14, 15],
-		13: [10, 11, 12, 13, 14, 15],
-		14: [10, 11, 12, 13, 14, 15],
-		15: [10, 12, 13, 14, 15],
-		16: [10, 12, 13, 15],
-		17: [13, 15]
+		13: [11, 12, 13, 14, 15],
+		14: [11, 12, 13, 14, 15],
+		15: [11, 13, 14, 15],
+		16: [13, 15],
 	}
 	player_disp = {
 		0: ["<", ")", ")"],
-		1: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, "<", ")", ")"],
-		2: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL],
-		3: [Back.YELLOW + "|" + Style.RESET_ALL, Back.YELLOW + "|" + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL],
-		4: [Back.YELLOW + "|" + Style.RESET_ALL, Back.YELLOW + "|" + Style.RESET_ALL, Back.BLUE + " " + Style.RESET_ALL, Back.BLUE + " " + Style.RESET_ALL],
-		5: [Back.BLUE + " " + Style.RESET_ALL, Back.BLUE + " " + Style.RESET_ALL]
+		1: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, "<", ")", ")"],
+		2: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL],
+		3: [Back.YELLOW + "|" + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL],
+		4: [Back.BLUE + " " + Style.RESET_ALL, Back.BLUE + " " + Style.RESET_ALL],
 	}
 	life = 3
 	score = 0
