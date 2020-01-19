@@ -15,7 +15,7 @@ class GunShot:
             row1 : [column1, column1 + 1, column1 + 2, column1 + 3]
         }
         self.__display = {
-            0 : [Fore.RED + '|' + Style.RESET_ALL, Fore.RED + '-' + Style.RESET_ALL, Fore.RED + '-' + Style.RESET_ALL, Fore.RED + '>' + Style.RESET_ALL]
+            0 : ['|', '-', '-', '>']
         }
         t1 = 0
         for i in self.__coordinates:
@@ -25,7 +25,7 @@ class GunShot:
                 t2 += 1
             t1 += 1
 
-    def move(self, grid, fire_beams, pos, num_column):
+    def move(self, grid, fire_beams, pos, num_column, mandalorian):
         if self.__alive == 0:
             return
         temp = {}
@@ -40,6 +40,7 @@ class GunShot:
             for j in self.__coordinates[i]:
                 for k in range(0, 7):
                     if grid[i][j + k].fire == 1:
+                        mandalorian.score += 2
                         self.__alive = 0
                         num = grid[i][j + k].beam_num
                         fire_beams[num].self_destruct(grid)
@@ -48,7 +49,7 @@ class GunShot:
                         self.__alive = 0
 
         if self.__alive == 0:
-            return  
+            return
 
         self.__coordinates.clear()
         t1 = 0

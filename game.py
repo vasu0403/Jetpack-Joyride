@@ -50,7 +50,7 @@ beam_num = 0
 speedBoost_num = 0
 speedBoosts = []
 
-time_diff = 0.15
+time_diff = 0.13
 change_time = 0
 time_of_change = time.time()
 
@@ -118,11 +118,11 @@ while True:
 		time_of_change = time.time()
 
 	if cur_time - time_of_change >= 10:
-		time_diff = 0.15
+		time_diff = 0.13
 
 	if cur_time - prev_time >= time_diff:
 		for shots in gun_shots:
-			shots.move(game_board.grid, fire_beams, game_board.pos, game_board.num_column)
+			shots.move(game_board.grid, fire_beams, game_board.pos, game_board.num_column, mandalorian)
 		prev_time = cur_time
 		player_column, change_time = mandalorian.gravity(player_column, game_board.pos, game_board.grid, fire_beams, speedBoosts)
 		game_board.pos = game_board.pos + 1
