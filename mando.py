@@ -19,8 +19,16 @@ class Mando:
 		3: [Back.YELLOW + "|" + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL, Back.CYAN + " " + Style.RESET_ALL],
 		4: [Back.BLUE + " " + Style.RESET_ALL, Back.BLUE + " " + Style.RESET_ALL],
 	}
+	player_disp_with_shield = {
+		0: [Fore.RED + "<" + Style.RESET_ALL, Fore.RED + ")" + Style.RESET_ALL, Fore.RED + ")" + Style.RESET_ALL],
+		1: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL,Fore.RED + "<" + Style.RESET_ALL, Fore.RED + ")" + Style.RESET_ALL, Fore.RED + ")" + Style.RESET_ALL],
+		2: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " "+ Style.RESET_ALL],
+		3: [Back.YELLOW + "|" + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL],
+		4: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL],
+	}
 	life = 3
 	score = 0
+	shield = 0
 	def insert_into_grid(self, grid):
 		cnt1 = 0
 		for i in self.player_cords:
@@ -31,6 +39,7 @@ class Mando:
 			cnt1 += 1
 	def move_mando(self, player_column, movement, pos, grid, fire_beams, speedBoosts):
 		new_player_cords = {}
+		new_player_coords_shield = {}
 		change_time = 0
 		for i in self.player_cords:
 			new_player_cords[i + movement[0]] = []
@@ -44,7 +53,11 @@ class Mando:
 		for i in new_player_cords:
 			for j in new_player_cords[i]:
 				if grid[i][j].fire == 1:
-					if self.life == 1:
+					if self.shield == 1:
+						num = grid[i][j].beam_num
+						fire_beams[num].self_destruct(grid)
+						self.shield = 0
+					elif self.life == 1:
 						sys.exit()										# display some message maybe
 					else:
 						self.life = self.life - 1
@@ -70,7 +83,10 @@ class Mando:
 				if grid[i][j].boost == 1:
 					speedBoosts[grid[i][j].boostNum].self_destruct(grid)
 					change_time = 1
-				grid[i][j] = Player(self.player_disp[cnt1][cnt2])
+				if self.shield == 1:
+					grid[i][j] = Player(self.player_disp_with_shield[cnt1][cnt2])
+				else:
+					grid[i][j] = Player(self.player_disp[cnt1][cnt2])
 				cnt2 += 1
 				self.player_cords[i].append(j)
 			cnt1 += 1
