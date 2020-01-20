@@ -1,5 +1,5 @@
 rows = 30
-columns = 300
+columns = 200
 num_column = 150
 player_column = 11
 

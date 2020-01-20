@@ -16,12 +16,13 @@ from coins import Coin
 from speedBoost import SpeedBoost
 from gunShot import GunShot
 from dragon import Dragon
+from iceBall import IceBall
 
 def alarmhandler(signum, frame):
 		''' input method '''
 		raise AlarmException
 
-def user_input(timeout=0.03):
+def user_input(timeout=0.04):
 	''' input method '''
 	signal.signal(signal.SIGALRM, alarmhandler)
 	signal.setitimer(signal.ITIMER_REAL, timeout)
@@ -53,9 +54,10 @@ beam_num = 0
 speedBoost_num = 0
 speedBoosts = []
 
-time_diff = 0.11
+time_diff = 0.13
 change_time = 0
 time_of_change = time.time()
+make_fast = 0
 
 shield_cooloff_time = 0
 shield_remaining_time = 0
@@ -66,6 +68,10 @@ gun_shot_num = 0
 
 boss = Dragon(columns)
 boss.insert(game_board.grid)
+ice_balls = []
+ice_ball_num = 0
+prev_ice_ball_shoot = time.time()
+
 for i in range(40, columns - 161, 70):             # adding fire beams on the board
 	random.shuffle(Rstart_pos1)
 	random.shuffle(Rstart_pos2)
@@ -95,11 +101,10 @@ for i in range(65, columns - 161, 70):					# adding coins, speed boost and magne
 	elif object_type == 2:								# object_type 2 is for spped boost
 		speedBoosts.append(SpeedBoost(object_middle_row, i, game_board.grid, speedBoost_num))
 		speedBoost_num += 1
-
+prev_ice_ball_shoot = time.time()
 while True:
 	char = user_input()
 	cur_time = time.time()
-
 	if cur_time - prev_shield_time >= 1:
 		prev_shield_time = cur_time
 		if shield_remaining_time > 0:
@@ -125,11 +130,12 @@ while True:
 	elif char == 'w':
 		player_column, change_time = mandalorian.move_mando(player_column, [-1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
 		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
-
+		boss.move([-1, 0], game_board.grid)
 
 	elif char == 's':
 		player_column, change_time = mandalorian.move_mando(player_column, [1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
 		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		boss.move([1, 0], game_board.grid)
 
 	elif char == 'e':
 		gun_shots.append(GunShot(gun_shot_num, mandalorian.player_cords, game_board.grid))
@@ -141,27 +147,52 @@ while True:
 			shield_cooloff_time = 60
 			shield_remaining_time = 10
 			prev_shield_time = time.time()
+			game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
 
 	if change_time == 1:
 		change_time = 0
-		time_diff = 0.04
+		time_diff = 0.05
 		time_of_change = time.time()
 
 	if cur_time - time_of_change >= 10:
-		time_diff = 0.11
+		time_diff = 0.13
 
 	if cur_time - prev_time >= time_diff:
-		print(game_board.pos)
 		for shots in gun_shots:
 			shots.move(game_board.grid, fire_beams, game_board.pos, game_board.num_column, mandalorian, columns)
+		for balls in ice_balls:
+			# print("****")
+			balls.move(game_board.grid, game_board.pos)
 		prev_time = cur_time
 		player_column, change_time = mandalorian.gravity(player_column, game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
-		if game_board.pos <= columns - num_column - 1:
-			game_board.pos = game_board.pos + 1
-		if game_board.pos == player_column:
-			player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
 		if change_time == 1:
 			change_time = 0
-			time_diff = 0.04
+			time_diff = 0.05
 			time_of_change = time.time()
+		boss.move([1, 0], game_board.grid)
+		if game_board.pos <= columns - num_column - 1:
+			game_board.pos = game_board.pos + 1
+			player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
+			if change_time == 1:
+				change_time = 0
+				time_diff = 0.05
+				time_of_change = time.time()
+
+		if game_board.pos > columns - num_column - 1:
+			if time.time() - prev_ice_ball_shoot >= 1.5:
+			# print("*****")
+				prev_ice_ball_shoot = time.time()
+				ice_balls.append(IceBall(ice_ball_num, boss.upper_coordinate + 1, columns - 39, game_board.grid))
+				ice_ball_num += 1
+				ice_balls.append(IceBall(ice_ball_num, boss.upper_coordinate + 5, columns - 39, game_board.grid))
+				ice_ball_num += 1
+				ice_balls.append(IceBall(ice_ball_num, boss.upper_coordinate + 9, columns - 39, game_board.grid))
+				ice_ball_num += 1
+
+		if game_board.pos == player_column:
+			player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
+			if change_time == 1:
+				change_time = 0
+				time_diff = 0.05
+				time_of_change = time.time()
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)

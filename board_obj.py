@@ -11,3 +11,5 @@ class Board_obj:
 		self.disp = Back.BLUE + " " + Style.RESET_ALL
 		self.boost = 0
 		self.shot = 0
+		self.boss = 0
+		self.ice = 0

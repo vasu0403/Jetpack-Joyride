@@ -20,13 +20,13 @@ class Beam:
 				last_i = i1
 				last_j = i2
 			if i1 > 2 and i1 < 27 and grid[i1][i2].playarea == 1:
-				grid[i1][i2] = Fire(beam_num, Fore.YELLOW + "F" + Style.RESET_ALL)
+				grid[i1][i2] = Fire(beam_num, Fore.YELLOW + Style.BRIGHT + "F" + Style.RESET_ALL)
 			if i1 > 2 and i1 < 27 and grid[i1][i2 + 1].playarea == 1:
-				grid[i1][i2+1] = Fire(beam_num,  Fore.YELLOW + "F" + Style.RESET_ALL)
-		grid[i][j] = Fire(beam_num, Back.YELLOW + " " + Style.RESET_ALL)
-		grid[i][j + 1] = Fire(beam_num, Back.YELLOW + " " + Style.RESET_ALL)
-		grid[last_i][last_j] = Fire(beam_num, Back.YELLOW + " " + Style.RESET_ALL)
-		grid[last_i][last_j + 1] = Fire(beam_num, Back.YELLOW + " " + Style.RESET_ALL)
+				grid[i1][i2+1] = Fire(beam_num,  Fore.YELLOW + Style.BRIGHT + "F" + Style.RESET_ALL)
+		grid[i][j] = Fire(beam_num, Back.YELLOW + Style.BRIGHT + " " + Style.RESET_ALL)
+		grid[i][j + 1] = Fire(beam_num, Back.YELLOW + Style.BRIGHT + " " + Style.RESET_ALL)
+		grid[last_i][last_j] = Fire(beam_num, Back.YELLOW + Style.BRIGHT + " " + Style.RESET_ALL)
+		grid[last_i][last_j + 1] = Fire(beam_num, Back.YELLOW + Style.BRIGHT + " " + Style.RESET_ALL)
 	def self_destruct(self, grid):
 		self.__alive = 0
 		for t in range(self.__length):
