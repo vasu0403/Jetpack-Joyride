@@ -25,7 +25,7 @@ class GunShot:
                 t2 += 1
             t1 += 1
 
-    def move(self, grid, fire_beams, pos, num_column, mandalorian):
+    def move(self, grid, fire_beams, pos, num_column, mandalorian, columns):
         if self.__alive == 0:
             return
         temp = {}
@@ -39,7 +39,7 @@ class GunShot:
         for i in self.__coordinates:
             for j in self.__coordinates[i]:
                 for k in range(0, 7):
-                    if grid[i][j + k].fire == 1:
+                    if (j + k) < columns and grid[i][j + k].fire == 1:
                         mandalorian.score += 2
                         self.__alive = 0
                         num = grid[i][j + k].beam_num

@@ -1,7 +1,7 @@
 rows = 30
-columns = 4000
+columns = 300
 num_column = 150
-player_column = 10
+player_column = 11
 
 # shapes of object
 is_coin = [[0, 0, 1, 0, 0], [0, 1, 1, 1, 0], [1, 1, 1, 1, 1], [0, 1, 1, 1, 0], [0, 0, 1, 0, 0]]

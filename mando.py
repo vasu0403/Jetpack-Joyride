@@ -37,7 +37,7 @@ class Mando:
 				grid[i][j] = Player(self.player_disp[cnt1][cnt2])
 				cnt2 += 1
 			cnt1 += 1
-	def move_mando(self, player_column, movement, pos, grid, fire_beams, speedBoosts):
+	def move_mando(self, player_column, movement, pos, grid, fire_beams, speedBoosts, num_column):
 		new_player_cords = {}
 		new_player_coords_shield = {}
 		change_time = 0
@@ -47,8 +47,9 @@ class Mando:
 				new_player_cords[i + movement[0]].append(j + movement[1])
 
 		player_column = player_column + movement[1]
-		if player_column <= pos:
+		if player_column <= pos or (player_column + 4) >= pos + num_column - 2:
 			return player_column - movement[1], change_time
+
 
 		for i in new_player_cords:
 			for j in new_player_cords[i]:
@@ -92,5 +93,5 @@ class Mando:
 			cnt1 += 1
 		return player_column, change_time
 
-	def gravity(self, player_column, pos, grid, fire_beams, speedBoosts):
-		return self.move_mando(player_column, [1, 0], pos, grid, fire_beams, speedBoosts)
+	def gravity(self, player_column, pos, grid, fire_beams, speedBoosts, num_column):
+		return self.move_mando(player_column, [1, 0], pos, grid, fire_beams, speedBoosts, num_column)
