@@ -16,12 +16,12 @@ class Beam:
 		for t in range(length):
 			i1 = i + orientation[0]*t
 			i2 = j + orientation[1]*t
-			if i1 > 2 and i1 < 27:
+			if i1 > 2 and i1 < 37:
 				last_i = i1
 				last_j = i2
-			if i1 > 2 and i1 < 27 and grid[i1][i2].playarea == 1:
+			if i1 > 2 and i1 < 37 and grid[i1][i2].playarea == 1:
 				grid[i1][i2] = Fire(beam_num, Fore.YELLOW + Style.BRIGHT + "F" + Style.RESET_ALL)
-			if i1 > 2 and i1 < 27 and grid[i1][i2 + 1].playarea == 1:
+			if i1 > 2 and i1 < 37 and grid[i1][i2 + 1].playarea == 1:
 				grid[i1][i2+1] = Fire(beam_num,  Fore.YELLOW + Style.BRIGHT + "F" + Style.RESET_ALL)
 		grid[i][j] = Fire(beam_num, Back.YELLOW + Style.BRIGHT + " " + Style.RESET_ALL)
 		grid[i][j + 1] = Fire(beam_num, Back.YELLOW + Style.BRIGHT + " " + Style.RESET_ALL)
@@ -32,7 +32,7 @@ class Beam:
 		for t in range(self.__length):
 			i1 = self.__x + self.__orientation[0]*t
 			i2 = self.__y + self.__orientation[1]*t
-			if i1 > 2 and i1 < 27 and grid[i1][i2].fire == 1:
+			if i1 > 2 and i1 < 37 and grid[i1][i2].fire == 1:
 				grid[i1][i2] = Playarea()
-			if i1 > 2 and i1 < 27 and grid[i1][i2 + 1].fire == 1:
+			if i1 > 2 and i1 < 37 and grid[i1][i2 + 1].fire == 1:
 				grid[i1][i2+1] = Playarea()

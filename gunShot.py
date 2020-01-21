@@ -69,7 +69,7 @@ class GunShot:
             self.__coordinates[i] = []
             for j in temp[i]:
                 self.__coordinates[i].append(j)
-                if grid[i][j].points == 0 and grid[i][j].magnet == 0 and grid[i][j].boost == 0:
+                if grid[i][j].points == 0 and grid[i][j].attr == 0 and grid[i][j].boost == 0:
                     grid[i][j] = Shot(self.__display[t1][t2])
                 t2 += 1
             t1 += 1

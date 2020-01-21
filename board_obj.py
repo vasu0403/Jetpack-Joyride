@@ -6,7 +6,7 @@ class Board_obj:
 		self.playarea = 0
 		self.blocking = 0
 		self.points = 0
-		self.magnet = 0
+		self.attr = 0
 		self.player = 0
 		self.disp = Back.BLUE + " " + Style.RESET_ALL
 		self.boost = 0

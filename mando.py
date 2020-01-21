@@ -29,6 +29,8 @@ class Mando:
 	life = 10
 	score = 0
 	shield = 0
+	Mcenter_i = 14
+	Mcenter_j = 13
 	def insert_into_grid(self, grid):
 		cnt1 = 0
 		for i in self.player_cords:
@@ -37,7 +39,7 @@ class Mando:
 				grid[i][j] = Player(self.player_disp[cnt1][cnt2])
 				cnt2 += 1
 			cnt1 += 1
-	def move_mando(self, player_column, movement, pos, grid, fire_beams, speedBoosts, num_column):
+	def move_mando(self, player_column, movement, pos, grid, fire_beams, speedBoosts, num_column, ice_balls, override):
 		new_player_cords = {}
 		new_player_coords_shield = {}
 		change_time = 0
@@ -50,6 +52,14 @@ class Mando:
 		if player_column <= pos or (player_column + 4) >= pos + num_column - 2:
 			return player_column - movement[1], change_time
 
+		if override == 0:										# override is to check for magnet
+			for i in new_player_cords:
+				for j in new_player_cords[i]:
+					if grid[i][j].blocking == 1:
+						return player_column - movement[1], change_time
+
+		self.Mcenter_i += movement[0]
+		self.Mcenter_j += movement[1]
 
 		for i in new_player_cords:
 			for j in new_player_cords[i]:
@@ -64,10 +74,16 @@ class Mando:
 						self.life = self.life - 1
 						num = grid[i][j].beam_num
 						fire_beams[num].self_destruct(grid)
-		for i in new_player_cords:
-			for j in new_player_cords[i]:
-				if grid[i][j].blocking == 1:
-					return player_column, change_time
+				if grid[i][j].ice == 1:
+					num = grid[i][j].ice_num
+					ice_balls[num].self_destruct(grid)
+					if self.shield == 1:
+						self.shield = 0
+					else:
+						self.life -= 1
+					if self.life == 0:
+						sys.exit()
+
 
 		for i in self.player_cords:
 			for j in self.player_cords[i]:
@@ -93,5 +109,5 @@ class Mando:
 			cnt1 += 1
 		return player_column, change_time
 
-	def gravity(self, player_column, pos, grid, fire_beams, speedBoosts, num_column):
-		return self.move_mando(player_column, [1, 0], pos, grid, fire_beams, speedBoosts, num_column)
+	def gravity(self, player_column, pos, grid, fire_beams, speedBoosts, num_column, ice_balls, override):
+		return self.move_mando(player_column, [1, 0], pos, grid, fire_beams, speedBoosts, num_column, ice_balls, override)
