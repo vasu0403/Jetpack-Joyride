@@ -8,16 +8,16 @@ from ice import Ice
 class IceBall:
     def __init__(self, num, upper_row, column, grid):
         self.alive = 1
-        self.num = 0
+        self.num = num
         self.__coordinates = {
             upper_row: [column - 1],
             upper_row + 1: [column - 2, column],
             upper_row + 2: [column - 2, column - 1, column]
         }
         self.__disp = {
-            0 : ['_'],
-            1 : ['/', '\\'],
-            2 : ['\\', '_', '/']
+            0 : [Fore.WHITE + Style.BRIGHT + '_' + Style.RESET_ALL],
+            1 : [Fore.WHITE + Style.BRIGHT + '/' + Style.RESET_ALL, Fore.WHITE + Style.BRIGHT + '\\' + Style.RESET_ALL],
+            2 : [Fore.WHITE + Style.BRIGHT + '\\' + Style.RESET_ALL, Fore.WHITE + Style.BRIGHT + '_' + Style.RESET_ALL, Fore.WHITE + Style.BRIGHT + '/' + Style.RESET_ALL]
         }
         cnt1 = 0
         cnt2 = 0
@@ -28,9 +28,8 @@ class IceBall:
                 cnt2 += 1
             cnt1 += 1
 
-    def move(self, grid, pos):
+    def move(self, grid, pos, mandalorian):
         if self.alive == 0:
-            # print("**")
             return
         new_coordinates = {}
         for i in self.__coordinates:
@@ -40,6 +39,22 @@ class IceBall:
                 new_coordinates[i].append(j - 3)
                 if j - 3 <= pos:
                     self.alive = 0
+
+        flag = 0
+        for i in new_coordinates:
+            for j in new_coordinates[i]:
+                if grid[i][j].player == 1 or grid[i][j+1].player == 1 or grid[i][j+2].player == 1:
+                    self.alive = 0
+                    if mandalorian.shield == 1:
+                        mandalorian.shield = 0
+                    else:
+                        mandalorian.life -= 1
+                    if mandalorian.life == 0:
+                        sys.exit()
+                    flag = 1
+                    break
+            if flag == 1:
+                break
 
         if self.alive == 0:
             return
@@ -52,3 +67,9 @@ class IceBall:
                 grid[i][j] = Ice(self.num, self.__disp[cnt1][cnt2])
                 cnt2 += 1
             cnt1 += 1
+
+    def self_destruct(self, grid):
+        self.alive = 0
+        for i in self.__coordinates:
+            for j in self.__coordinates[i]:
+                grid[i][j] = Playarea()

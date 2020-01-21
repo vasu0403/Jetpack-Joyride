@@ -8,6 +8,7 @@ from boss import Boss
 class Dragon:
 	def __init__(self, column):
 		self.__dragon_disp = {}
+		self.life = 20
 		cnt = 0
 		with open('dragon.txt', 'r') as file:
 			data = file.readlines()

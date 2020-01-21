@@ -26,7 +26,7 @@ class Mando:
 		3: [Back.YELLOW + "|" + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL],
 		4: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL],
 	}
-	life = 3
+	life = 10
 	score = 0
 	shield = 0
 	def insert_into_grid(self, grid):

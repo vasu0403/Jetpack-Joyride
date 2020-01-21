@@ -29,15 +29,15 @@ class Board:
 			for j in range(self.columns):
 				self.grid[i][j] = Playarea()
 
-	def display(self, life, score, shield, shield_remaining_time, shield_cooloff_time):
+	def display(self, life, score, shield, shield_remaining_time, shield_cooloff_time, boss_life):
 		print("\033[0;0H")
 		if shield == 1:
-			s = "\nLives left: " + str(life) + "\t\t Score: " + str(score) + "\t\t Shield remainig time: " + str(shield_remaining_time) + "     \n"
+			s = "\nLives left: " + str(life) + "\t\t Score: " + str(score) + "\t\t Shield remainig time: " + str(shield_remaining_time) + "\t\tBoss life remaining: " +  str(boss_life) + "    \n"
 		if shield == 0:
 			if shield_cooloff_time > 0:
-				s = "\nLives left: " + str(life) + "\t\t Score: " + str(score) + Fore.RED + "\t\t Shield cooloff time: " + str(shield_cooloff_time) + "      \n" + Style.RESET_ALL
+				s = "\nLives left: " + str(life) + "\t\t Score: " + str(score) + Fore.RED + "\t\t Shield cooloff time: " + str(shield_cooloff_time) + Style.RESET_ALL + "\t\tBoss life remaining: " + str(boss_life) + "    \n"
 			else:
-				s = "\nLives left: " + str(life) + "\t\t Score: " + str(score) + "\t\t" + Fore.BLUE + "SHIELD AVAILABLE !!      \n" + Style.RESET_ALL
+				s = "\nLives left: " + str(life) + "\t\t Score: " + str(score) + "\t\t" + Fore.BLUE + "SHIELD AVAILABLE !! " + Style.RESET_ALL + "\t\tBoss life remaining: " + str(boss_life) + "   \n"
 		# print("Lives left: " + str(life))
 		for i in range(self.rows):
 			for j in range(self.pos, self.pos + self.num_column):

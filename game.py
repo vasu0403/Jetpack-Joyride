@@ -77,15 +77,39 @@ for i in range(40, columns - 161, 70):             # adding fire beams on the bo
 	random.shuffle(Rstart_pos2)
 	random.shuffle(Rlength1)
 	random.shuffle(Rorientation)
-	start_pos_i = Rstart_pos1[0]
-	start_pos_j = i + Rstart_pos2[0]
-	length = Rlength1[0]
-	orientation = Rorientation[0]
-	if orientation[0] == 0:
-		length += 6
-	fire_beams.append(Beam(start_pos_i, start_pos_j, length, orientation, game_board.grid, beam_num))
-	beam_num = beam_num + 1
+	random.shuffle(num_fire_beams)
+	random.shuffle(Rstart_pos1_2beams)
+	random.shuffle(Rstart_pos2_2beams)
+	random.shuffle(Rlength1_2beams)
+	random.shuffle(Rstart_pos3_2beams)
 
+	num_beams = num_fire_beams[0]
+	if num_beams == 1:
+		start_pos_i = Rstart_pos1[0]
+		start_pos_j = i + Rstart_pos2[0]
+		length = Rlength1[0]
+		orientation = Rorientation[0]
+		if orientation[0] == 0:
+			length += 6
+		fire_beams.append(Beam(start_pos_i, start_pos_j, length, orientation, game_board.grid, beam_num))
+		beam_num = beam_num + 1
+	else:
+		orientation1 = Rorientation[0]
+		orientation2 = Rorientation[1]
+		start_pos_j1 = i + Rstart_pos3_2beams[0]
+		start_pos_j2 = i + Rstart_pos3_2beams[1]
+		start_pos_i1 = Rstart_pos1_2beams[0]
+		start_pos_i2 = Rstart_pos2_2beams[0]
+		length1 = Rlength1_2beams[0]
+		length2 = Rlength1_2beams[1]
+		if orientation1[0] == 0:
+			length1 += 6
+		if orientation2[0] == 0:
+			length2 += 6
+		fire_beams.append(Beam(start_pos_i1, start_pos_j1, length1, orientation1, game_board.grid, beam_num))
+		beam_num = beam_num + 1
+		fire_beams.append(Beam(start_pos_i2, start_pos_j2, length2, orientation2, game_board.grid, beam_num))
+		beam_num = beam_num + 1
 for i in range(65, columns - 161, 70):					# adding coins, speed boost and magnets
 	random.shuffle(Random_object)
 	random.shuffle(Random_object_row)
@@ -120,26 +144,26 @@ while True:
 
 	elif char == 'd':
 		player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
 
 	elif char == 'a':
 		player_column, change_time = mandalorian.move_mando(player_column, [0, -1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
 
 
 	elif char == 'w':
 		player_column, change_time = mandalorian.move_mando(player_column, [-1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
 		boss.move([-1, 0], game_board.grid)
 
 	elif char == 's':
 		player_column, change_time = mandalorian.move_mando(player_column, [1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
 		boss.move([1, 0], game_board.grid)
 
 	elif char == 'e':
 		gun_shots.append(GunShot(gun_shot_num, mandalorian.player_cords, game_board.grid))
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
 
 	elif len(char) > 0 and ord(char) == 32:
 		if shield_cooloff_time <= 0:
@@ -147,7 +171,7 @@ while True:
 			shield_cooloff_time = 60
 			shield_remaining_time = 10
 			prev_shield_time = time.time()
-			game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+			game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
 
 	if change_time == 1:
 		change_time = 0
@@ -159,10 +183,9 @@ while True:
 
 	if cur_time - prev_time >= time_diff:
 		for shots in gun_shots:
-			shots.move(game_board.grid, fire_beams, game_board.pos, game_board.num_column, mandalorian, columns)
+			shots.move(game_board.grid, fire_beams, game_board.pos, game_board.num_column, mandalorian, columns, ice_balls, boss)
 		for balls in ice_balls:
-			# print("****")
-			balls.move(game_board.grid, game_board.pos)
+			balls.move(game_board.grid, game_board.pos, mandalorian)
 		prev_time = cur_time
 		player_column, change_time = mandalorian.gravity(player_column, game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column)
 		if change_time == 1:
@@ -195,4 +218,4 @@ while True:
 				change_time = 0
 				time_diff = 0.05
 				time_of_change = time.time()
-		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time)
+		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life)
