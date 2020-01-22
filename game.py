@@ -76,7 +76,8 @@ ice_balls = []
 ice_ball_num = 0
 prev_ice_ball_shoot = time.time()
 
-for i in range(40, columns - 161, 70):             # adding fire beams on the board
+
+for i in range(40, columns - 181, 70):             # adding fire beams on the board
 	random.shuffle(Rstart_pos1)
 	random.shuffle(Rstart_pos2)
 	random.shuffle(Rlength1)
@@ -111,14 +112,14 @@ for i in range(40, columns - 161, 70):             # adding fire beams on the bo
 		length1 = Rlength1_2beams[0]
 		length2 = Rlength1_2beams[1]
 		if orientation1[0] == 0:
-			length1 += 6
+			length1 += 5
 		if orientation2[0] == 0:
-			length2 += 6
+			length2 += 5
 		fire_beams.append(Beam(start_pos_i1, start_pos_j1, length1, orientation1, game_board.grid, beam_num))
 		beam_num = beam_num + 1
 		fire_beams.append(Beam(start_pos_i2, start_pos_j2, length2, orientation2, game_board.grid, beam_num))
 		beam_num = beam_num + 1
-for i in range(65, columns - 161, 70):					# adding coins, speed boost and magnets
+for i in range(65, columns - 181, 70):					# adding coins, speed boost and magnets
 	random.shuffle(Random_object)
 	random.shuffle(Random_object_row)
 	object_type = Random_object[0]
@@ -243,7 +244,7 @@ while True:
 			else:
 				player_column, change_time = mandalorian.move_mando(player_column, [0, -1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column, ice_balls, 0)
 				player_column, change_time = mandalorian.move_mando(player_column, [0, -1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column, ice_balls, 0)
-				
+
 			if change_time == 1:
 				change_time = 0
 				time_diff = 0.05

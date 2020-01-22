@@ -26,11 +26,44 @@ class Mando:
 		3: [Back.YELLOW + "|" + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL, Back.MAGENTA + " " + Style.RESET_ALL],
 		4: [Back.RED + " " + Style.RESET_ALL, Back.RED + " " + Style.RESET_ALL],
 	}
-	life = 10
+	life = 1
 	score = 0
 	shield = 0
 	Mcenter_i = 14
 	Mcenter_j = 13
+	cnt = 0
+	__game_over_disp = {}
+	with open('endgame.txt', 'r') as file:
+		data = file.readlines()
+		for l in data:
+			li = list(l)
+			__game_over_disp[cnt] = li
+			__game_over_disp[cnt].pop()
+			for k in range(15):
+				__game_over_disp[cnt].insert(0, ' ')
+			for k in range(len(__game_over_disp[cnt])):
+				__game_over_disp[cnt][k] = Style.BRIGHT + Fore.RED + __game_over_disp[cnt][k] + Style.RESET_ALL
+			cnt += 1
+
+	def game_over(self):
+		print('\033c')
+		for i in range(24):
+			for j in range(len(self.__game_over_disp[i])):
+				print(self.__game_over_disp[i][j], end = '')
+			print()
+		print()
+		print()
+		print()
+		print()
+		print()
+		print()
+		for i in range(95):
+			print(" ", end = '')
+		print(Style.BRIGHT + Fore.YELLOW + 'Your Score: ' + str(self.score) + Style.RESET_ALL)
+		for i in range(20):
+			print()
+		sys.exit()
+
 	def insert_into_grid(self, grid):
 		cnt1 = 0
 		for i in self.player_cords:
@@ -69,7 +102,7 @@ class Mando:
 						fire_beams[num].self_destruct(grid)
 						self.shield = 0
 					elif self.life == 1:
-						sys.exit()										# display some message maybe
+						self.game_over()
 					else:
 						self.life = self.life - 1
 						num = grid[i][j].beam_num
@@ -82,7 +115,7 @@ class Mando:
 					else:
 						self.life -= 1
 					if self.life == 0:
-						sys.exit()
+						self.game_over()
 
 
 		for i in self.player_cords:

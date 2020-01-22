@@ -1,7 +1,11 @@
-import time
-import os
-n = input()
-time.sleep(3)
-print("\033[1;1H")
-time.sleep(3)
-time.sleep(3)
+cnt = 0
+disp = {}
+with open('endgame.txt', 'r') as file:
+	data = file.readlines()
+	for l in data:
+		li = list(l)
+		disp[cnt] = li
+		disp[cnt].pop()
+		cnt += 1
+l = list(disp.keys())
+print(len(l))

@@ -17,7 +17,7 @@ Rstart_pos3_2beams = [1, 3, 5]
 Rlength1_2beams = [9, 10, 11]
 Rorientation = [[-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1]]
 
-Random_object = [3]
+Random_object = [1, 2, 3]
 Random_object_row = []
 for i in range(8, 31):
     Random_object_row.append(i)
