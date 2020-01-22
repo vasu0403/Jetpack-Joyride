@@ -6,6 +6,20 @@ class Attraction(Board_obj):
         if blocking == 1:
             self.blocking = 1
         self.disp = disp
-        self.centre_i = i
-        self.centre_j = j
+        self.__centre_i = i
+        self.__centre_j = j
         self.attr = 1
+
+    @property
+    def centre_i(self):
+        return self.__centre_i
+    @centre_i.setter
+    def centre_i(self, a):
+        self.__centre_i = a
+
+    @property
+    def centre_j(self):
+        return self.__centre_j
+    @centre_j.setter
+    def centre_j(self, a):
+        self.__centre_j = a

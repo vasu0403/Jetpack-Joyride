@@ -4,11 +4,12 @@ from playarea import Playarea
 import sys
 from colorama import Fore, Back, Style
 from boss import Boss
+import time
 
 class Dragon:
 	def __init__(self, column):
 		self.__dragon_disp = {}
-		self.life = 20
+		self.__life = 2
 		cnt = 0
 		with open('dragon.txt', 'r') as file:
 			data = file.readlines()
@@ -21,11 +22,32 @@ class Dragon:
 				self.__dragon_disp[cnt].pop()
 				cnt += 1
 		self.__dragon_coordinates = {}
-		self.upper_coordinate = 8
+		self.__upper_coordinate = 8
 		for i in range(8, 20):
 			self.__dragon_coordinates[i] = []
 			for j in range(column - 37, column - 2):
 				self.__dragon_coordinates[i].append(j)
+
+	def self_destruct(self, grid):
+		for i in self.__dragon_coordinates:
+			for j in self.__dragon_coordinates[i]:
+				grid[i][j] = Playarea()
+
+
+	@property
+	def life(self):
+	    return self.__life
+	@life.setter
+	def life(self, a):
+	    self.__life = a
+
+	@property
+	def upper_coordinate(self):
+	    return self.__upper_coordinate
+	@upper_coordinate.setter
+	def upper_coordinate(self, a):
+	    self.__upper_coordinate = a
+
 
 	def insert(self, grid):
 		i2 = 0

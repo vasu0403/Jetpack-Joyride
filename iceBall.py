@@ -4,11 +4,12 @@ from playarea import Playarea
 import sys
 from colorama import Fore, Back, Style
 from ice import Ice
+import time
 
 class IceBall:
     def __init__(self, num, upper_row, column, grid):
-        self.alive = 1
-        self.num = num
+        self.__alive = 1
+        self.__num = num
         self.__coordinates = {
             upper_row: [column - 1],
             upper_row + 1: [column - 2, column],
@@ -27,6 +28,21 @@ class IceBall:
                 grid[i][j] = Ice(num, self.__disp[cnt1][cnt2])
                 cnt2 += 1
             cnt1 += 1
+
+    @property
+    def alive(self):
+        return self.__alive
+    @alive.setter
+    def alive(self, a):
+        self.__alive = a
+
+    @property
+    def num(self):
+        return self.__num
+    @num.setter
+    def num(self, a):
+        self.__num = a
+
 
     def move(self, grid, pos, mandalorian):
         if self.alive == 0:
@@ -50,7 +66,7 @@ class IceBall:
                     else:
                         mandalorian.life -= 1
                     if mandalorian.life == 0:
-                        sys.exit()
+                        mandalorian.game_over()
                     flag = 1
                     break
             if flag == 1:

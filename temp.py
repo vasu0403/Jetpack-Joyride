@@ -1,6 +1,6 @@
 cnt = 0
 disp = {}
-with open('endgame.txt', 'r') as file:
+with open('game_won.txt', 'r') as file:
 	data = file.readlines()
 	for l in data:
 		li = list(l)

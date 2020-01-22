@@ -7,13 +7,48 @@ from config import *
 from colorama import Fore, Back, Style
 class Board:
 	def __init__(self, rows, columns, num_column):
-		self.rows = rows
-		self.columns = columns
-		self.num_column = num_column
-		self.pos = 0
+		self.__rows = rows
+		self.__columns = columns
+		self.__num_column = num_column
+		self.__pos = 0
+
+	@property
+	def rows(self):
+	    return self.__rows
+	@rows.setter
+	def rows(self, a):
+	    self.__rows = a
+
+	@property
+	def columns(self):
+	    return self.__columns
+	@columns.setter
+	def columns(self, a):
+	    self.__columns = a
+
+	@property
+	def num_column(self):
+	    return self.__num_column
+	@num_column.setter
+	def num_column(self, a):
+	    self.__num_column = a
+
+	@property
+	def pos(self):
+	    return self.__pos
+	@pos.setter
+	def pos(self, a):
+	    self.__pos = a
+
+	@property
+	def grid(self):
+	    return self.__grid
+	@grid.setter
+	def grid(self, a):
+	    self.__grid = a
 
 	def create_grid(self):
-		self.grid = np.full((self.rows, self.columns), Board_obj())
+		self.__grid = np.full((self.rows, self.columns), Board_obj())
 
 	def insert_boundary(self):
 		for i in range(self.columns):
@@ -29,15 +64,15 @@ class Board:
 			for j in range(self.columns):
 				self.grid[i][j] = Playarea()
 
-	def display(self, life, score, shield, shield_remaining_time, shield_cooloff_time, boss_life):
+	def display(self, life, score, shield, shield_remaining_time, shield_cooloff_time, boss_life, time_left):
 		print("\033[0;0H")
 		if shield == 1:
-			s = "\nLives left: " + str(life) + "  \t\t    Score: " + str(score) + "  \t\t    Shield remainig time: " + str(shield_remaining_time) + "  \t\t     Boss life remaining: " +  str(boss_life) + "    \n"
+			s = "\nLives left: " + str(life).zfill(2) + "  \t\t    Score: " + str(score) + "  \t\t    Shield remainig time: " + str(shield_remaining_time) + "  \t\t    Time left: " + str(time_left).zfill(2) + "  \t\t     Boss life remaining: " +  str(boss_life) + "    \n"
 		if shield == 0:
 			if shield_cooloff_time > 0:
-				s = "\nLives left: " + str(life) + "  \t\t    Score: " + str(score) + Fore.RED + "  \t\t    Shield cooloff time: " + str(shield_cooloff_time) + Style.RESET_ALL + "  \t\t    Boss life remaining: " + str(boss_life) + "    \n"
+				s = "\nLives left: " + str(life).zfill(2) + "  \t\t    Score: " + str(score) + Fore.RED + "  \t\t    Shield cooloff time: " + str(shield_cooloff_time) + Style.RESET_ALL + "  \t\t    Time left: " + str(time_left).zfill(2) +  "  \t\t    Boss life remaining: " + str(boss_life) + "    \n"
 			else:
-				s = "\nLives left: " + str(life) + "  \t\t    Score: " + str(score) + "  \t\t" + Fore.BLUE + "    SHIELD AVAILABLE !! " + Style.RESET_ALL + "  \t\t    Boss life remaining: " + str(boss_life) + "   \n"
+				s = "\nLives left: " + str(life).zfill(2) + "  \t\t    Score: " + str(score) + "  \t\t" + Fore.BLUE + "    SHIELD AVAILABLE !! " + Style.RESET_ALL + "  \t\t    Time left: " + str(time_left).zfill(2) +  "  \t\t    Boss life remaining: " + str(boss_life) + "   \n"
 		# print("Lives left: " + str(life))
 		for i in range(self.rows):
 			for j in range(self.pos, self.pos + self.num_column):
