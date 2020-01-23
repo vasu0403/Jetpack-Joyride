@@ -2,12 +2,14 @@ from board_obj import Board_obj
 from player import Player
 from playarea import Playarea
 import sys
+from bullets import Bullet
 from colorama import Fore, Back, Style
 from ice import Ice
 import time
 
-class IceBall:
+class IceBall(Bullet):                                #here
     def __init__(self, num, upper_row, column, grid):
+        # Bullet.__init__(self)                             #here
         self.__alive = 1
         self.__num = num
         self.__coordinates = {

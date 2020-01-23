@@ -202,7 +202,8 @@ class Mando:
 						self.life -= 1
 					if self.life == 0:
 						self.game_over()
-
+				if grid[i][j].boss == 1:
+					self.game_over()
 
 		for i in self.player_cords:
 			for j in self.player_cords[i]:

@@ -9,7 +9,7 @@ import time
 class Dragon:
 	def __init__(self, column):
 		self.__dragon_disp = {}
-		self.__life = 2
+		self.__life = 10
 		cnt = 0
 		with open('dragon.txt', 'r') as file:
 			data = file.readlines()

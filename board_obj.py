@@ -2,17 +2,17 @@ from colorama import Fore, Back, Style
 
 class Board_obj:
 	def __init__(self):
-		self.fire = 0
-		self.playarea = 0
-		self.blocking = 0
-		self.points = 0
-		self.attr = 0
-		self.player = 0
-		self.disp = Back.BLUE + " " + Style.RESET_ALL
-		self.boost = 0
-		self.shot = 0
-		self.boss = 0
-		self.ice = 0
+		self.__fire = 0
+		self.__playarea = 0
+		self.__blocking = 0
+		self.__points = 0
+		self.__attr = 0
+		self.__player = 0
+		self.__disp = Back.BLUE + " " + Style.RESET_ALL
+		self.__boost = 0
+		self.__shot = 0
+		self.__boss = 0
+		self.__ice = 0
 
 	@property
 	def fire(self):

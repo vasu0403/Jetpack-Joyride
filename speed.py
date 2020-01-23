@@ -1,7 +1,7 @@
 from board_obj import Board_obj
 from colorama import Fore, Back, Style
 
-class Speed:
+class Speed(Board_obj):
     def __init__(self, boostNum):
         Board_obj.__init__(self)
         self.__boostNum = boostNum

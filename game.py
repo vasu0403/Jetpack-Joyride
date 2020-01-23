@@ -32,7 +32,6 @@ def user_input(timeout=0.04):
 	try:
 		text = getChar()()
 		signal.alarm(0)
-		# print(text)
 		return text
 	except AlarmException:
 		pass
@@ -48,7 +47,6 @@ game_board.insert_boundary()
 game_board.insert_playarea()
 mandalorian = Mando()
 mandalorian.insert_into_grid(game_board.grid)
-game_board.grid[6][columns - 36].disp = 'X'
 
 fire_beams = []
 beam_num = 0
@@ -56,7 +54,7 @@ beam_num = 0
 speedBoost_num = 0
 speedBoosts = []
 
-time_diff = 0.13
+time_diff = 0.10
 change_time = 0
 time_of_change = time.time()
 make_fast = 0
@@ -76,7 +74,7 @@ ice_balls = []
 ice_ball_num = 0
 prev_ice_ball_shoot = time.time()
 
-time_left = 70
+time_left = 110
 prev_time_left = time.time()
 game_end = 0
 
@@ -198,7 +196,6 @@ while True:
 	do_attract = 0
 	attract_toi = -1
 	attract_toj = -1
-	# print(mandalorian.Mcenter_i, mandalorian.Mcenter_j)
 	for i in range(mandalorian.Mcenter_i - 10, mandalorian.Mcenter_i + 10):
 		if i < 0 or i >=rows:
 			continue
@@ -234,7 +231,7 @@ while True:
 		time_of_change = time.time()
 
 	if cur_time - time_of_change >= 10:
-		time_diff = 0.13
+		time_diff = 0.10
 
 	if cur_time - prev_time >= time_diff:
 		if do_attract == 1:
@@ -308,14 +305,13 @@ if game_end == 1:
 				game_board.grid[i][j] = Playarea()
 
 	game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life, time_left)
-	time.sleep(2)
+	time.sleep(1)
 
 	while(True):
 		player_column, change_time = mandalorian.move_mando(player_column, [1, 0], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column, ice_balls, 0)
 		player_column, change_time = mandalorian.move_mando(player_column, [0, 1], game_board.pos, game_board.grid, fire_beams, speedBoosts, num_column, ice_balls, 0)
 		game_board.display(mandalorian.life, mandalorian.score, mandalorian.shield, shield_remaining_time, shield_cooloff_time, boss.life, time_left)
-		time.sleep(0.01)
-		print(columns, mandalorian.Mcenter_j)
+		time.sleep(0.05)
 		if mandalorian.Mcenter_j > columns - 7:
 			break
 	mandalorian.game_won()
